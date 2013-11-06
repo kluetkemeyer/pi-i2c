@@ -3,6 +3,7 @@
  
 #include <stdint.h>
 #include "pi/pii2cbus.hpp"
+#include <bcm2835.h>
 
 namespace pi 
 {
@@ -18,6 +19,8 @@ namespace pi
 			void _releaseBus() const;
 			
 		public:
+			static const uint8_t I2C_REASON_OK = BCM2835_I2C_REASON_OK;
+			
 			I2C_Device(uint8_t addr);
 			uint8_t getSlaveAddress() const { return m_addr; }
 

@@ -10,6 +10,10 @@ int main(int charc, char **charv) {
 	
 	
 	printf("status: 0x%02x [%x]\n", status, error);
+	
+	sensor.setActive(1);
+	
+	printf("status: 0x%02x [%x]\n", status, error);
 
 	return 0;
 }
