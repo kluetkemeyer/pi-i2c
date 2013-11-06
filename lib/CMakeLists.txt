@@ -9,6 +9,7 @@ set(pi_SRCS
     src/pi/pibcm2835.cpp
     src/pi/pii2cbus.cpp
     src/pi/pii2c.cpp
+    src/pi/interfaces/MPL3115A2.cpp
 )
 
 find_package( Boost REQUIRED )

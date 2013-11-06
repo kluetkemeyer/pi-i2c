@@ -10,7 +10,7 @@ namespace pi
 	class I2C_Device
 	{
 		private:
-			uint8_t m_addr;
+			const uint8_t m_addr;
 			
 		protected:
 			I2C_Bus *bus;
