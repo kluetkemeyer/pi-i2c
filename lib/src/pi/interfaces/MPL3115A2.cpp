@@ -200,7 +200,7 @@ namespace pi
 			if (lsb & 0x20)	v += 0.125;
 			if (lsb & 0x10)	v += 0.0625;	
 			
-			d_pressure = v;
+			d_altitude = v;
 		}
 		
 		void MPL3115A2::readAltitudeAndPressure()
