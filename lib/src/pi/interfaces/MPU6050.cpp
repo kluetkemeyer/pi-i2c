@@ -98,6 +98,14 @@ namespace pi
 		void MPU6050::init()
 		{
 			c_accelScaleRange = ACCEL_SCALE_RANGE_2G;
+			c_gyroScaleRange = GYRO_SCALE_RANGE_250;
+			
+			uint32_t i;
+			for(i=0; i<3; ++i) {
+				d_accel[i] = 0;
+				d_gyro[i] = 0;
+			}
+			d_temp = 0.0;
 		}
 		
 		MPU6050::MPU6050(const bool addressBit): 
@@ -123,6 +131,7 @@ namespace pi
 		
 		void MPU6050::getConfiguration()
 		{
+			// TODO
 		}
 		
 		void MPU6050::setConfiguration() const
