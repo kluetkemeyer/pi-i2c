@@ -92,4 +92,93 @@ namespace pi
 		*errorCode = bus->write_register(reg, (char *) (void *) &val, 4);
 		_releaseBus();
 	}
+	
+	
+	uint8_t I2C_Device::_changeRegOr_rs(const char reg, const char* maskBuf, const uint32_t len) const
+	{
+		uint8_t error = 0;
+		char *buffer = (char *) calloc(sizeof(*buffer), len);
+		if (!buffer) {
+			return I2C_REASON_OK+1;
+		}
+		error = bus->read_register_rs(reg, buffer, len);
+		if (error != I2C_REASON_OK) {
+			free(buffer);
+			return error;
+		}
+		uint32_t i;
+		for(i=0; i<len; ++i) {
+			buffer[i] |= maskBuf[i];
+		}
+		
+		error = bus->write_register(reg, buffer, len);
+		free(buffer);
+		return error;
+	}
+	
+	uint8_t I2C_Device::_changeRegAnd_rs(const char reg, const char* maskBuf, const uint32_t len) const
+	{
+		uint8_t error = 0;
+		char *buffer = (char *) calloc(sizeof(*buffer), len);
+		if (!buffer) {
+			return I2C_REASON_OK+1;
+		}
+		error = bus->read_register_rs(reg, buffer, len);
+		if (error != I2C_REASON_OK) {
+			free(buffer);
+			return error;
+		}
+		uint32_t i;
+		for(i=0; i<len; ++i) {
+			buffer[i] &= maskBuf[i];
+		}
+		
+		error = bus->write_register(reg, buffer, len);
+		free(buffer);
+		return error;
+	}
+	
+	uint8_t I2C_Device::_changeRegOr(const char reg, const char* maskBuf, const uint32_t len) const
+	{
+		uint8_t error = 0;
+		char *buffer = (char *) calloc(sizeof(*buffer), len);
+		if (!buffer) {
+			return I2C_REASON_OK+1;
+		}
+		error = bus->read_register(reg, buffer, len);
+		if (error != I2C_REASON_OK) {
+			free(buffer);
+			return error;
+		}
+		uint32_t i;
+		for(i=0; i<len; ++i) {
+			buffer[i] |= maskBuf[i];
+		}
+		
+		error = bus->write_register(reg, buffer, len);
+		free(buffer);
+		return error;
+	}
+	
+	uint8_t I2C_Device::_changeRegAnd(const char reg, const char* maskBuf, const uint32_t len) const
+	{
+		uint8_t error = 0;
+		char *buffer = (char *) calloc(sizeof(*buffer), len);
+		if (!buffer) {
+			return I2C_REASON_OK+1;
+		}
+		error = bus->read_register(reg, buffer, len);
+		if (error != I2C_REASON_OK) {
+			free(buffer);
+			return error;
+		}
+		uint32_t i;
+		for(i=0; i<len; ++i) {
+			buffer[i] &= maskBuf[i];
+		}
+		
+		error = bus->write_register(reg, buffer, len);
+		free(buffer);
+		return error;
+	}
 }

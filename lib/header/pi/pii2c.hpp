@@ -18,6 +18,11 @@ namespace pi
 			void _lockBus() const;
 			void _releaseBus() const;
 			
+			uint8_t _changeRegOr(const char reg, const char* maskBuf, const uint32_t len) const;
+			uint8_t _changeRegAnd(const char reg, const char* maskBuf, const uint32_t len) const;
+			uint8_t _changeRegOr_rs(const char reg, const char* maskBuf, const uint32_t len) const;
+			uint8_t _changeRegAnd_rs(const char reg, const char* maskBuf, const uint32_t len) const;
+			
 		public:
 			static const uint8_t I2C_REASON_OK = BCM2835_I2C_REASON_OK;
 			

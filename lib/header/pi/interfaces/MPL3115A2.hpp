@@ -14,8 +14,11 @@ namespace pi
 				uint8_t error;
 				void init();
 		
-			protected:
+			protected:			
 				MPL3115A2(uint8_t addr);
+				
+				void changeMode(const bool altMode);
+				void readAnyData();
 				
 			public:
 				MPL3115A2();
@@ -23,8 +26,10 @@ namespace pi
 				
 				uint8_t getStatus();
 				uint8_t getErrorCode() const { return error; }
-				int8_t setActive(uint8_t active);
 				uint8_t whoAmI();
+				
+				void setActive(uint8_t active);
+				void readTemperatureAndPressure();
 		};
 		
 	}

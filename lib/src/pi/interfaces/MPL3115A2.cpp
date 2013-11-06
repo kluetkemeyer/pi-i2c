@@ -1,5 +1,5 @@
 #include "pi/interfaces/MPL3115A2.hpp"
-
+#include <cstdio>
 
 #define MPL_ADDR 0x60
 
@@ -13,6 +13,11 @@
 #define MPL_REG_CTRL_REG1           0x26
 
 #define MPL_CTRL_REG1_SBYB			0x01
+#define MPL_CTRL_REG1_OST			0x02
+#define MPL_CTRL_REG1_ALT			0x80
+
+#define MPL_OVERSAMPLE_MASK			0b00111000
+
 
 namespace pi 
 {
@@ -35,7 +40,7 @@ namespace pi
 		
 		void MPL3115A2::init()
 		{
-			error = 0;
+			error = 0x00;
 		}
 		
 		uint8_t MPL3115A2::getStatus()
@@ -43,34 +48,79 @@ namespace pi
 			return read_reg_byte(MPL_REG_STATUS, &error);
 		}
 		
-		int8_t MPL3115A2::setActive(uint8_t active)
+		void MPL3115A2::setActive(uint8_t active)
 		{
 			_lockBus();
-			uint8_t reg = 0x00;
-			error = bus->read_register_rs(MPL_REG_CTRL_REG1, (char*) (void*) &reg, 1);
-			if (error != I2C_REASON_OK) {
-				_releaseBus();
-				return -1;
-			}
-			
 			if (active) {
-				reg |= MPL_CTRL_REG1_SBYB;
+				char regMask = MPL_CTRL_REG1_SBYB;
+				error = _changeRegOr_rs(MPL_REG_CTRL_REG1, &regMask, 1);
 			} else {
-				reg &= ~MPL_CTRL_REG1_SBYB;
+				char regMask = ~MPL_CTRL_REG1_SBYB;
+				error = _changeRegAnd_rs(MPL_REG_CTRL_REG1, &regMask, 1);
 			}
-			
-			error = bus->write_register(MPL_CTRL_REG1_SBYB, (char*) (void*) &reg, 1);
 			_releaseBus();
-			if (error != I2C_REASON_OK) {
-				return -1;
-			}
-			
-			return reg & MPL_CTRL_REG1_SBYB;
 		}
 		
 		uint8_t MPL3115A2::whoAmI()
 		{
 			return read_reg_byte_rs(MPL_REG_WHO_AM_I, &error);
+		}
+		
+		void MPL3115A2::changeMode(const bool altMode)
+		{
+			char currentCtrl = 0x00;
+			bool isActive = false;
+			bool inAltMode = false;
+			
+			_lockBus();
+			bus->read_register_rs(MPL_REG_CTRL_REG1, &currentCtrl, 1);
+			inAltMode = currentCtrl & MPL_CTRL_REG1_ALT ? true : false;
+			
+			if (altMode == inAltMode) {
+				_releaseBus();
+				return;
+			}
+			
+			isActive = currentCtrl & MPL_CTRL_REG1_SBYB;
+			if (isActive && altMode != inAltMode) {
+				_releaseBus();
+				fprintf(stderr, "Cannot change mode in activity\n");
+				return;
+			}
+			
+			if (altMode) {
+				currentCtrl |= MPL_CTRL_REG1_ALT;
+			} else {
+				currentCtrl &= ~MPL_CTRL_REG1_ALT;
+			}
+			
+			bus->write_register(MPL_REG_CTRL_REG1, &currentCtrl, 1);
+			_releaseBus();
+		}
+		
+		void MPL3115A2::readAnyData()
+		{
+			char ctrl, isAltMode, restoreCtrl;
+			int32_t oversample;
+			
+			_lockBus();
+			bus->read_register_rs(MPL_REG_CTRL_REG1, &ctrl, 1);
+			_releaseBus();
+			
+			isAltMode = ctrl & MPL_CTRL_REG1_ALT;
+			oversample = ctrl & MPL_OVERSAMPLE_MASK;
+			
+			printf("mode: %i\noversample: %i\n", isAltMode, oversample);
+			oversample >>= 3;
+			oversample = (int) (100.5 + (1 << oversample) * 1000/128);
+			printf("mode: %i\noversample: %i\n", isAltMode, oversample);
+			
+		}
+		
+		void MPL3115A2::readTemperatureAndPressure() 
+		{
+			changeMode(false);
+			readAnyData();
 		}
 	}
 }
