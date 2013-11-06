@@ -24,7 +24,7 @@ int main(int charc, char **charv) {
 		printf("%18.2f | %18.2f\n", sensor.getTemperature(),
 			sensor.getPressure());
 			
-		usleep(500);
+		usleep(500000);
 	}
 	//printf("temperature:     %.2f\n", sensor.getTemperature());
 	//printf("pressure:        %.2f\n", sensor.getPressure());
