@@ -4,6 +4,7 @@
 include_directories ( src header )
 
 OPTION(WITH_MPL3115A2 "Include Sensor MPL3115A2" ON)
+OPTION(WITH_MPU6050 "Include Sensor MPU6050" ON)
 
 
 # Hier wird definiert, welche Quellcodedateien zur Bibliothek dazugehören.
@@ -19,6 +20,12 @@ if (WITH_MPL3115A2)
     src/pi/interfaces/MPL3115A2.cpp
   )
 endif (WITH_MPL3115A2)
+
+if (WITH_MPU6050)
+  set (pi_SRCS ${pi_SRCS}
+    src/pi/interfaces/MPU6050.cpp
+  )
+endif (WITH_MPU6050)
 
 
 
