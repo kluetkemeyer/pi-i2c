@@ -1,5 +1,6 @@
-#include "pi/interfaces/MPL3115A2.hpp"
 #include <cstdio>
+#include <unistd.h>
+#include "pi/interfaces/MPL3115A2.hpp"
 
 #define MPL_ADDR 0x60
 
@@ -109,12 +110,34 @@ namespace pi
 			
 			isAltMode = ctrl & MPL_CTRL_REG1_ALT;
 			oversample = ctrl & MPL_OVERSAMPLE_MASK;
+			restoreCtrl = ctrl & ~MPL_CTRL_REG1_OST; 
 			
 			printf("mode: %i\noversample: %i\n", isAltMode, oversample);
 			oversample >>= 3;
-			oversample = (int) (100.5 + (1 << oversample) * 1000/128);
+			oversample = (int) (100.5 + oversample * 1000/128);
 			printf("mode: %i\noversample: %i\n", isAltMode, oversample);
 			
+			_lockBus();
+			ctrl &= ~MPL_CTRL_REG1_OST;
+			bus->write_register(MPL_REG_CTRL_REG1, &ctrl, 1);
+			ctrl |= MPL_CTRL_REG1_OST;
+			bus->write_register(MPL_REG_CTRL_REG1, &ctrl, 1);
+			_releaseBus();
+			
+			usleep(oversample);
+			char data[5];
+			_lockBus();
+			bus->read_register(MPL_REG_OUT_P_MSB, data, 5);
+			_releaseBus();
+			
+			if (isAltMode)
+			{
+			}
+			else
+			{
+				setPressure(data[0], data[1], data[2]);
+				setTemperature(data[3], data[4]);
+			}
 		}
 		
 		void MPL3115A2::readTemperatureAndPressure() 
@@ -122,5 +145,24 @@ namespace pi
 			changeMode(false);
 			readAnyData();
 		}
+		
+		void MPL3115A2::setPressure(char msb, char csb, char lsb)
+		{
+			float v = 0;
+			v = msb << 10;
+			v += csb << 2;
+			v += (lsb >> 6) & 0b00000011;
+			if (lsb & 0x20)
+				v += 0.5;
+			if (lsb & 0x10)
+				v += 0.25;
+			
+			d_pressure = v;
+		}
+		
+		void MPL3115A2::setTemperature(char msb, char lsb)
+		{
+		}
+		
 	}
 }

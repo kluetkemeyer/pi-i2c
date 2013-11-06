@@ -17,6 +17,8 @@ int main(int charc, char **charv) {
 	printf("status: 0x%02x [%x]\n", status, error);
 	
 	sensor.readTemperatureAndPressure();
+	printf("temperature:     %.2f\n", sensor.getTemperature());
+	printf("pressure:        %.2f\n", sensor.getPressure());
 
 	return 0;
 }
