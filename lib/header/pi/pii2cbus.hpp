@@ -1,7 +1,9 @@
 #ifndef __PI_I2CBUS__H__
 #define __PI_I2CBUS__H__
 
-#include <mutex>
+#include <boost/signals2/mutex.hpp>
+#include <stdint.h>
+#include "singleton.hpp"
 
 namespace pi
 {
@@ -26,7 +28,7 @@ namespace pi
 			I2C_Bus() { init(); }	
 			
 		private:
-			std::mutex bus_lock;
+			boost::signals2::mutex bus_lock;
 			uint8_t bus_slaveAddr;
 			
 			void init();

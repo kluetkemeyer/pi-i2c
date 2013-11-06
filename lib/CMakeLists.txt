@@ -11,12 +11,12 @@ set(pi_SRCS
     src/pi/pii2c.cpp
 )
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=gnu++0x -Wall -g")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_RELEASE} -std=gnu++0x -Wall")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=gnu++0x -Wall")
+find_package( Boost REQUIRED )
 
 # Es wird festgelegt, dass es sich um eine gemeinsam genutzt Bibliothek
 # handelt. Um eine statische Bibliothek zu bekommen, wird
 # SHARED durch STATIC ersetzt.
 add_library (pi STATIC ${pi_SRCS})
+
+#target_link_libraries ( pi boost )
 
