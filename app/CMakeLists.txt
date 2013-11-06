@@ -1,5 +1,5 @@
 
-include_directories ( ${CMAKE_SOURCE_DIR}/lib/src src )
+include_directories ( ${CMAKE_SOURCE_DIR}/lib/header src )
 
 set ( app_SRCS
 	src/main.cpp

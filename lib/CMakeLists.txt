@@ -1,12 +1,13 @@
 # Wenn diese Bibliothek zusätzliche includes benötigt, müssen diese
 # natürlich eingefügt werden.
 
-include_directories ( src )
+include_directories ( src header )
 
 # Hier wird definiert, welche Quellcodedateien zur Bibliothek dazugehören.
 # Bei großen Projekten ist eine logische Unterteilung sinnvoll.
 set(pi_SRCS
     src/pi/pii2c.cpp
+    src/pi/pibcm2835.cpp
 )
 
 # Es wird festgelegt, dass es sich um eine gemeinsam genutzt Bibliothek
