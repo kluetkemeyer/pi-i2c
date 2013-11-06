@@ -17,6 +17,5 @@ find_package( Boost REQUIRED )
 # handelt. Um eine statische Bibliothek zu bekommen, wird
 # SHARED durch STATIC ersetzt.
 add_library (pi STATIC ${pi_SRCS})
-
-#target_link_libraries ( pi boost )
+target_link_libraries ( pi bcm2835 )
 
