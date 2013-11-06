@@ -19,7 +19,7 @@ int main(int charc, char **charv) {
 	
 	printf("temperature        | pressure           | altitude\n");
 	while(1) {
-		sensor.readTemperatureAndPressure();
+		sensor.readAllData();
 			
 		printf("%18.2f | %18.2f | %18.2f\n", sensor.getTemperature(),
 			sensor.getPressure(), sensor.getAltitude());

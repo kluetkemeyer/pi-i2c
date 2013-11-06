@@ -200,7 +200,7 @@ namespace pi
 			if (lsb & 0x20)	v += 0.125;
 			if (lsb & 0x10)	v += 0.0625;	
 			
-			printf("Alt readings: 0x%02x 0x%02x 0x%02x\n", msb, csb, lsb);
+			//printf("Alt readings: 0x%02x 0x%02x 0x%02x\n", msb, csb, lsb);
 			
 			d_altitude = v;
 		}
