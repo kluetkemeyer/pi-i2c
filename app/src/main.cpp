@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <cstdio>
+#include <unistd.h>
 #include "pi/interfaces/MPL3115A2.hpp"
 
 int main(int charc, char **charv) {
@@ -16,9 +17,17 @@ int main(int charc, char **charv) {
 	
 	printf("status: 0x%02x [%x]\n", status, error);
 	
-	sensor.readTemperatureAndPressure();
-	printf("temperature:     %.2f\n", sensor.getTemperature());
-	printf("pressure:        %.2f\n", sensor.getPressure());
+	printf("temperature        | pressure\n");
+	while(1) {
+		sensor.readTemperatureAndPressure();
+			
+		printf("%18.2f | %18.2f\n", sensor.getTemperature(),
+			sensor.getPressure());
+			
+		usleep(500);
+	}
+	//printf("temperature:     %.2f\n", sensor.getTemperature());
+	//printf("pressure:        %.2f\n", sensor.getPressure());
 
 	return 0;
 }
