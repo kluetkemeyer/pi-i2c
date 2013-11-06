@@ -14,6 +14,7 @@ namespace pi
 				uint8_t error;
 				float d_pressure;
 				float d_temperature;
+				float d_altitude;
 				void init();
 		
 			protected:			
@@ -23,6 +24,7 @@ namespace pi
 				void readAnyData();
 				
 				void setPressure(const char msb, const char csb, const char lsb);
+				void setAltitude(char msb, char csb, char lsb);
 				void setTemperature(char msb, const char lsb);
 				
 			public:
@@ -35,9 +37,12 @@ namespace pi
 				
 				float getPressure() const { return d_pressure; }
 				float getTemperature() const { return d_temperature; }
+				float getAltitude() const { return d_altitude; }
 				
 				void setActive(uint8_t active);
 				void readTemperatureAndPressure();
+				void readAltitudeAndPressure();
+				void readAllData();
 		};
 		
 	}

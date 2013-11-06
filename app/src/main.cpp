@@ -17,12 +17,12 @@ int main(int charc, char **charv) {
 	
 	printf("status: 0x%02x [%x]\n", status, error);
 	
-	printf("temperature        | pressure\n");
+	printf("temperature        | pressure           | altitude\n");
 	while(1) {
 		sensor.readTemperatureAndPressure();
 			
-		printf("%18.2f | %18.2f\n", sensor.getTemperature(),
-			sensor.getPressure());
+		printf("%18.2f | %18.2f | %18.2f\n", sensor.getTemperature(),
+			sensor.getPressure(), sensor.getAltitude());
 			
 		usleep(500000);
 	}

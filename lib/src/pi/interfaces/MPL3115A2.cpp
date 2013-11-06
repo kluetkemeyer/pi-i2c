@@ -142,6 +142,7 @@ namespace pi
 			
 			if (isAltMode)
 			{
+				setAltitude(data[0], data[1], data[2]);
 			}
 			else
 			{
@@ -188,5 +189,32 @@ namespace pi
 			d_temperature = v;
 		} 
 		
+		void MPL3115A2::setAltitude(char msb, char csb, char lsb) {
+			uint16_t rp = (msb << 8) + csb;
+			float v = msb > 127
+				? -1*(1+(0xffff & ~rp))
+				: rp;
+			
+			if (lsb & 0x80)	v += 0.5;
+			if (lsb & 0x40)	v += 0.25;
+			if (lsb & 0x20)	v += 0.125;
+			if (lsb & 0x10)	v += 0.0625;	
+			
+			d_pressure = v;
+		}
+		
+		void MPL3115A2::readAltitudeAndPressure()
+		{
+			changeMode(true);
+			readAnyData();
+		}
+		
+		void MPL3115A2::readAllData()
+		{
+			changeMode(false);
+			readAnyData();
+			changeMode(true);
+			readAnyData();
+		}
 	}
 }
