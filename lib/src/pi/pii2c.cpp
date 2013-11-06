@@ -22,7 +22,11 @@ namespace pi
 	{
 		_lockBus();
 		uint8_t result;
-		*errorCode = bus->read_register(reg, (char *) (void *) &result, 1);
+		uint8_t error;
+		error = bus->read_register(reg, (char *) (void *) &result, 1);
+		if (errorCode) {
+			*errorCode = error;
+		}
 		_releaseBus();
 		return result;
 	}
@@ -31,7 +35,11 @@ namespace pi
 	{
 		_lockBus();
 		uint16_t result;
-		*errorCode = bus->read_register(reg, (char *) (void *) &result, 2);
+		uint8_t error;
+		error = bus->read_register(reg, (char *) (void *) &result, 2);
+		if (errorCode) {
+			*errorCode = error;
+		}
 		_releaseBus();
 		return result;
 	}
@@ -40,7 +48,11 @@ namespace pi
 	{
 		_lockBus();
 		uint32_t result;
-		*errorCode = bus->read_register(reg, (char *) (void *) &result, 4);
+		uint8_t error;
+		error = bus->read_register(reg, (char *) (void *) &result, 4);
+		if (errorCode) {
+			*errorCode = error;
+		}
 		_releaseBus();
 		return result;
 	}
@@ -49,7 +61,11 @@ namespace pi
 	{
 		_lockBus();
 		uint8_t result;
-		*errorCode = bus->read_register_rs(reg, (char *) (void *) &result, 1);
+		uint8_t error;
+		error = bus->read_register_rs(reg, (char *) (void *) &result, 1);
+		if (errorCode) {
+			*errorCode = error;
+		}
 		_releaseBus();
 		return result;
 	}
@@ -58,7 +74,11 @@ namespace pi
 	{
 		_lockBus();
 		uint16_t result;
-		*errorCode = bus->read_register_rs(reg, (char *) (void *) &result, 2);
+		uint8_t error;
+		error = bus->read_register_rs(reg, (char *) (void *) &result, 2);
+		if (errorCode) {
+			*errorCode = error;
+		}
 		_releaseBus();
 		return result;
 	}
@@ -67,7 +87,11 @@ namespace pi
 	{
 		_lockBus();
 		uint32_t result;
-		*errorCode = bus->read_register_rs(reg, (char *) (void *) &result, 4);
+		uint8_t error;
+		error = bus->read_register_rs(reg, (char *) (void *) &result, 4);
+		if (errorCode) {
+			*errorCode = error;
+		}
 		_releaseBus();
 		return result;
 	}
@@ -75,21 +99,33 @@ namespace pi
 	void I2C_Device::write_reg_byte(char reg, uint8_t val, uint8_t *errorCode) const
 	{
 		_lockBus();
-		*errorCode = bus->write_register(reg, (char *) (void *) &val, 1);
+		uint8_t error;
+		error = bus->write_register(reg, (char *) (void *) &val, 1);
+		if (errorCode) {
+			*errorCode = error;
+		}
 		_releaseBus();
 	}
 	
 	void I2C_Device::write_reg_word(char reg, uint16_t val, uint8_t *errorCode) const
 	{
 		_lockBus();
-		*errorCode = bus->write_register(reg, (char *) (void *) &val, 2);
+		uint8_t error;
+		error = bus->write_register(reg, (char *) (void *) &val, 2);
+		if (errorCode) {
+			*errorCode = error;
+		}
 		_releaseBus();
 	}
 	
 	void I2C_Device::write_reg_dword(char reg, uint32_t val, uint8_t *errorCode) const
 	{
 		_lockBus();
-		*errorCode = bus->write_register(reg, (char *) (void *) &val, 4);
+		uint8_t error;
+		error = bus->write_register(reg, (char *) (void *) &val, 4);
+		if (errorCode) {
+			*errorCode = error;
+		}
 		_releaseBus();
 	}
 	
