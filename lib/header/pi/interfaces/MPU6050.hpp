@@ -46,7 +46,7 @@ namespace pi
 				MPU6050(const bool addressBit);
 				~MPU6050();
 				
-				uint8_t getWhoAmI() const;
+				uint8_t whoAmI() const;
 				
 				uint8_t getGyroScaleRange() const { return c_gyroScaleRange; }
 				uint8_t getAccelScaleRange() const { return c_accelScaleRange; } 

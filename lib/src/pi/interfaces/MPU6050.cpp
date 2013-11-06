@@ -124,7 +124,7 @@ namespace pi
 		{
 		}
 		
-		uint8_t MPU6050::getWhoAmI() const
+		uint8_t MPU6050::whoAmI() const
 		{
 			return read_reg_byte(MPU_REG_WHO_AM_I, NULL);
 		}
