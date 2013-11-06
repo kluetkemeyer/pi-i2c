@@ -3,14 +3,24 @@
 
 include_directories ( src header )
 
+OPTION(WITH_MPL3115A2 "Include Sensor MPL3115A2" ON)
+
+
 # Hier wird definiert, welche Quellcodedateien zur Bibliothek dazugehören.
 # Bei großen Projekten ist eine logische Unterteilung sinnvoll.
 set(pi_SRCS
     src/pi/pibcm2835.cpp
     src/pi/pii2cbus.cpp
     src/pi/pii2c.cpp
-    src/pi/interfaces/MPL3115A2.cpp
 )
+
+if (WITH_MPL3115A2)
+  set (pi_SRCS ${pi_SRCS}
+    src/pi/interfaces/MPL3115A2.cpp
+  )
+endif (WITH_MPL3115A2)
+
+
 
 find_package( Boost REQUIRED )
 
