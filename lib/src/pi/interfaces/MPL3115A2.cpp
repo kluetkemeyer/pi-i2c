@@ -123,9 +123,21 @@ namespace pi
 			_releaseBus();
 			
 			usleep(oversample);
+			
+			char status;
+			do {
+				_lockBus();
+				bus->read_register_rs(MPL_REG_STATUS, &status, 1);
+				_releaseBus();
+				
+				if (!(status & 0x08))
+					usleep(500);
+			} while(!(status & 0x08));
+			
+			
 			char data[5];
 			_lockBus();
-			bus->read_register(MPL_REG_OUT_P_MSB, data, 5);
+			bus->read_register_rs(MPL_REG_OUT_P_MSB, data, 5);
 			_releaseBus();
 			
 			if (isAltMode)
