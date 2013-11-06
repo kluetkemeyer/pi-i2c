@@ -22,8 +22,8 @@ namespace pi
 				void changeMode(const bool altMode);
 				void readAnyData();
 				
-				void setPressure(char msb, char csb, char lsb);
-				void setTemperature(char msb, char lsb);
+				void setPressure(const char msb, const char csb, const char lsb);
+				void setTemperature(char msb, const char lsb);
 				
 			public:
 				MPL3115A2();

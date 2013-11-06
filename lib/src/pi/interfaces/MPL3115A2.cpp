@@ -146,7 +146,7 @@ namespace pi
 			readAnyData();
 		}
 		
-		void MPL3115A2::setPressure(char msb, char csb, char lsb)
+		void MPL3115A2::setPressure(const char msb, const char csb, const char lsb)
 		{
 			float v = 0;
 			v = msb << 10;
@@ -160,9 +160,23 @@ namespace pi
 			d_pressure = v;
 		}
 		
-		void MPL3115A2::setTemperature(char msb, char lsb)
+		void MPL3115A2::setTemperature(char msb, const char lsb)
 		{
-		}
+			float v = 0;
+			if (msb > 127) {
+				v = 0xFFFF & ~msb;
+				v += 1;
+				v *= -1;
+			} else {
+				v = msb;
+			}
+			if (lsb & 0x80)	v += 0.5;
+			if (lsb & 0x40)	v += 0.25;
+			if (lsb & 0x20)	v += 0.125;
+			if (lsb & 0x10)	v += 0.0625;
+			
+			d_temperature = v;
+		} 
 		
 	}
 }
