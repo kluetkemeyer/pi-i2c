@@ -112,10 +112,8 @@ namespace pi
 			oversample = ctrl & MPL_OVERSAMPLE_MASK;
 			restoreCtrl = ctrl & ~MPL_CTRL_REG1_OST; 
 			
-			printf("mode: %i\noversample: %i\n", isAltMode, oversample);
 			oversample >>= 3;
 			oversample = (int) (100.5 + oversample * 1000/128);
-			printf("mode: %i\noversample: %i\n", isAltMode, oversample);
 			
 			_lockBus();
 			ctrl &= ~MPL_CTRL_REG1_OST;
