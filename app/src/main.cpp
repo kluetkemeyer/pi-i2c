@@ -8,8 +8,11 @@ int main(int charc, char **charv) {
 	uint8_t status = sensor.getStatus();
 	uint8_t error = sensor.getErrorCode();
 	
-	printf("device address:  0x%02x\n", sensor.getSlaveAddress());
-	printf("device ID:       0x%02x\n", sensor.whoAmI());
+	uint8_t tmp = sensor.getSlaveAddress();	
+	printf("device address:  0x%02x [%u]\n", tmp, tmp);
+	
+	tmp = sensor.whoAmI();
+	printf("device ID:       0x%02x [%u]\n", tmp, tmp);
 	
 	printf("status: 0x%02x [%x]\n", status, error);
 	
