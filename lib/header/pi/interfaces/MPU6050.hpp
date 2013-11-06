@@ -18,10 +18,13 @@ namespace pi
 				
 				int16_t d_gyro[3];
 				int16_t d_accel[3];
+				float d_temp;
 				
-				void parseData(int16_t *parsed, char *raw, uint32_t len);
-				
+				void parseData(int16_t *parsed, char *raw, uint32_t len);				
 			protected:
+				void setRawGyroData(char *data);
+				void setRawAccelData(char *data);
+				void setRawTempData(char *data);
 				
 			public:
 				const static uint8_t ACCEL_SCALE_RANGE_2G = 0;
@@ -56,10 +59,12 @@ namespace pi
 				
 				uint16_t getRotation(const uint32_t axis) const { return d_gyro[axis]; }
 				uint16_t getAcceleration(const uint32_t axis) const { return d_accel[axis]; }
+				float getTemperature() const { return d_temp; }
 				
 				void readRotation();
 				void readAcceleration();
-				void readRotationAndAcceleration();
+				void readTemperature();
+				void readAllData();
 				
 		};
 	}

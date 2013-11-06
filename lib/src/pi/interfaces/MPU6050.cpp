@@ -158,6 +158,24 @@ namespace pi
 				--len;
 			}
 		}
+		
+		void MPU6050::setRawGyroData(char *data) 
+		{
+			parseData(d_gyro, data, 6);
+		}
+		
+		void MPU6050::setRawAccelData(char *data)
+		{
+			parseData(d_accel, data, 6);
+		}
+		
+		void MPU6050::setRawTempData(char *data) 
+		{
+			int16_t parsed = 0;
+			parseData(&parsed, data, 2);
+			
+			d_temp = parsed / 340 + 36.53;			
+		}
 			
 		void MPU6050::readRotation()
 		{
@@ -166,7 +184,17 @@ namespace pi
 			bus->read_register(MPU_REG_GYRO_XOUT_H, buffer, 6);
 			_releaseBus();
 			
-			parseData(d_gyro, buffer, 3);
+			setRawGyroData(buffer);
+		}
+		
+		void MPU6050::readTemperature()
+		{
+			char buffer[2];
+			_lockBus();
+			bus->read_register(MPU_REG_TEMP_OUT_H, buffer, 2);
+			_releaseBus();
+			
+			setRawTempData(buffer);
 		}
 		
 		void MPU6050::readAcceleration()
@@ -176,18 +204,19 @@ namespace pi
 			bus->read_register(MPU_REG_ACCEL_XOUT_H, buffer, 6);
 			_releaseBus();
 			
-			parseData(d_accel, buffer, 3);
+			setRawAccelData(buffer);
 		}
 		
-		void MPU6050::readRotationAndAcceleration()
+		void MPU6050::readAllData()
 		{
 			char buffer[14];
 			_lockBus();
 			bus->read_register(MPU_REG_ACCEL_XOUT_H, buffer, 14);
 			_releaseBus();
 			
-			parseData(d_accel, buffer, 3);
-			parseData(d_gyro, buffer+8, 3);
+			setRawAccelData(buffer);
+			setRawTempData(buffer+2);
+			setRawGyroData(buffer+8);
 		}
 		
 	}
