@@ -24,6 +24,7 @@ namespace pi
 				uint8_t getStatus();
 				uint8_t getErrorCode() const { return error; }
 				int8_t setActive(uint8_t active);
+				uint8_t whoAmI();
 		};
 		
 	}

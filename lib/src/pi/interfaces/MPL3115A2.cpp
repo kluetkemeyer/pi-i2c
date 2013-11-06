@@ -67,5 +67,10 @@ namespace pi
 			
 			return reg & MPL_CTRL_REG1_SBYB;
 		}
+		
+		uint8_t MPL3115A2::whoAmI()
+		{
+			return read_reg_byte_rs(MPL_REG_WHO_AM_I, &error);
+		}
 	}
 }
