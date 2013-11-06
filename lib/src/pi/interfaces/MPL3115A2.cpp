@@ -75,15 +75,15 @@ namespace pi
 			
 			_lockBus();
 			bus->read_register_rs(MPL_REG_CTRL_REG1, &currentCtrl, 1);
-			inAltMode = currentCtrl & MPL_CTRL_REG1_ALT ? true : false;
+			inAltMode = currentCtrl & MPL_CTRL_REG1_ALT;
 			
-			if (altMode == inAltMode) {
+			if ((altMode && inAltMode) || (!altMode && !inAltMode)) {
 				_releaseBus();
 				return;
 			}
 			
 			isActive = currentCtrl & MPL_CTRL_REG1_SBYB;
-			if (isActive && altMode != inAltMode) {
+			if (isActive) {
 				_releaseBus();
 				fprintf(stderr, "Cannot change mode in activity\n");
 				return;
