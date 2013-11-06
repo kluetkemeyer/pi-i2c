@@ -1,9 +1,11 @@
 #include "pi/pii2c.hpp"
 
-namespace pi {
+namespace pi 
+{
 
-I2C_Device::I2C_Device(uint8_t addr) {
-	m_addr = addr;
-}
+	I2C_Device::I2C_Device(uint8_t addr) 
+	{
+		m_addr = addr;
+	}
 
 }

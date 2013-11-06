@@ -6,8 +6,9 @@ include_directories ( src header )
 # Hier wird definiert, welche Quellcodedateien zur Bibliothek dazugehören.
 # Bei großen Projekten ist eine logische Unterteilung sinnvoll.
 set(pi_SRCS
-    src/pi/pii2c.cpp
     src/pi/pibcm2835.cpp
+    src/pi/pii2cbus.cpp
+    src/pi/pii2c.cpp
 )
 
 # Es wird festgelegt, dass es sich um eine gemeinsam genutzt Bibliothek
